@@ -20,30 +20,33 @@ export default function EncounterListitem(props) {
             <FlipCardContainer>
                 <FlipCardFront>
                     <ImgContainer>
-                        <Image src='https://pm1.narvii.com/7009/3377f2989098b329a94348649465d5a6ac68534dr1-1000-647v2_uhq.jpg'/>
+                        <Image src={props.imgSrc}/>
                     </ImgContainer>
                     <Title>
-                        <h1>Encounter Title</h1>
-                        <p>Created On: April 7th, 12:03pm</p>
-                        <p>Created By: Enrique Galindo</p>
+                        <h1>{props.title}</h1>
+                        <p>Created On: {props.created_on}</p>
+                        <p>Created By: {props.created_by}</p>
                     </Title>
                 </FlipCardFront>
                 <FlipCardBack>
                     <Container>
                         <h1>Creatures</h1>
                         <CreatureList>
-                            <li>Goblins x8</li>
-                            <li>Bearded Devil x1</li>
-                            <li>Blood Haw x2</li>
+                            {
+                                Object.keys(props.creatures).map((creature, index) => {
+                                    let name = creature.split('_').join(" ")
+                                    return <li key={index}>{name} x{props.creatures[creature]}</li>
+                                })
+                            }
                         </CreatureList>
                         <ButtonContainer>
-                            <Button>
+                            <Button onClick={props.onEdit}>
                                 Edit
                             </Button>
-                            <Button>
+                            <Button onClick={props.onRun}>
                                 Run
                             </Button>
-                            <Button>
+                            <Button onClick={props.onDelete}>
                                 Delete
                             </Button>
                         </ButtonContainer>
