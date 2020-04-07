@@ -5,7 +5,7 @@ import React from 'react'
 export default function EncounterList() {
     return (
         <div>
-            <h1>List of Encounters</h1>
+            <h1>Encounter List</h1>
         </div>
     )
 }
