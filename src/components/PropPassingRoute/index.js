@@ -10,7 +10,10 @@ export default function PropPassingRoute({component: Component, ...rest}) {
       <Route 
         {...rest}
         render={routerProps => (
-          <Component {...Object.assign({}, {api: rest.api}, routerProps)}/>
+          <Component {...Object.assign({}, routerProps,{
+            api: rest.api,
+            encounters: rest.encounters
+          })}/>
         )}
       />
     )

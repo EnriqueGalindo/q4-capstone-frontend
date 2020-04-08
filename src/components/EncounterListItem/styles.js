@@ -11,8 +11,8 @@ export const FlipCardContainer = styled.div`
 
 export const FlipCard = styled.div`
     background: transparent;
-    width: 371px;
-    height: 481px;
+    width: 100%;
+    height: 50vh;
     perspective: 1000px;
 
     &:hover ${FlipCardContainer} {
