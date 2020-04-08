@@ -4,7 +4,6 @@ export const FlipCardContainer = styled.div`
     position: relative;
     width: 100%;
     height: 100%;
-    text-align: center;
     transition: transform 0.6s;
     transform-style: preserve-3d;
     box-shadow: 1em 1em 2em rgba(0,0,0,.2);
@@ -12,8 +11,8 @@ export const FlipCardContainer = styled.div`
 
 export const FlipCard = styled.div`
     background: transparent;
-    width: 20%;
-    height: 30em;
+    width: 371px;
+    height: 481px;
     perspective: 1000px;
 
     &:hover ${FlipCardContainer} {
