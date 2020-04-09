@@ -37,6 +37,11 @@ export default function EncounterList({api, encounters}) {
             ))
     }
 
+    const addEncounter = e => {
+        console.log('Add Encounter')
+        e.preventDefault()
+    }
+
     const [selected, setSelected] = useState({})
 
     return (
@@ -44,9 +49,10 @@ export default function EncounterList({api, encounters}) {
             <EncounterSearchHeader 
                 encounters={encounters}
                 onSelected={encounter => setSelected(encounter)}
+                addEncounter={addEncounter}
             />
             <EncounterGrid>
-                    { selectedEncounters(selected) }
+                { selectedEncounters(selected) }
             </EncounterGrid>
         </>
     )

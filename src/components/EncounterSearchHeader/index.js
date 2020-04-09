@@ -2,23 +2,33 @@ import React from 'react'
 
 import Autocomplete from '../Autocomplete';
 
+import logo from '../../assets/dragonlogopng.png'
+
 import {
     Header,
     LogoContainer,
     SearchForm,
+    AddEncounter,
+    ButtonContainer
 } from './styles.js'
 
-export default function EncounterSearchHeader({encounters, onSelected}) {
-    return (
+export default function EncounterSearchHeader({encounters, onSelected, addEncounter}) {
+    return (      
         <Header>
             <SearchForm>
+                {/* 120 x 44 */}
                 <LogoContainer>
-                    <img alt='' src='https://www.google.com/logos/doodles/2020/thank-you-doctors-nurses-and-medical-workers-6753651837108754.3-s.png' />
+                    <img alt='' src={logo} />
                 </LogoContainer>
                 <Autocomplete 
                     encounters={encounters}
                     onSelected={onSelected}
                 />
+                <ButtonContainer>
+                    <AddEncounter onClick={addEncounter}>
+                        <i className='fas fa-plus' />
+                    </AddEncounter>
+                </ButtonContainer>
             </SearchForm>
         </Header>
     )

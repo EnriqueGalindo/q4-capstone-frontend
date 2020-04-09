@@ -12,4 +12,28 @@ export const SearchForm = styled.form`
 
 export const LogoContainer = styled.div`
     padding: 4px 28px 0 30px;
+
+    & > img {
+        width: 100px;
+        height: 80px;
+    }
+`;
+
+export const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: right;
+    padding-right: 20px;
+    width: 100%;
+`
+
+export const AddEncounter = styled.button`
+    background-color: #151E3F;
+    border: none;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    color: white;
+    padding: 12px 16px;
+    font-size: 20px;
+    cursor: pointer;
 `;

@@ -7,4 +7,4 @@ export const EncounterGrid = styled.div`
     justify-items: center;
     grid-column-gap: 20px;
     grid-row-gap: 15px;
-`
+`;
