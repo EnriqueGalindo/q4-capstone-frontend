@@ -21,7 +21,8 @@ function App() {
           <ApiProvider>
             <PropPassingRoute 
               exact path="/"
-              component={EncounterList}
+              // component={EncounterList}
+              component={EncounterCreator}
             />
             <PropPassingRoute 
               exact path="/encountercreator"

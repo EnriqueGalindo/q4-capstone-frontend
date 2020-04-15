@@ -7,30 +7,29 @@ import {
     Result
 } from './styles'
 
-export default function Autocomplete({encounters, onSelected}) {
+export default function Autocomplete({data, onSelected}) {
     const [value, setvalue] = useState('');
     const [results, setResults] = useState([]);
     const [focused, setFocused] = useState(false)
 
     useEffect(() => {
         if (value && focused)
-            setResults(encounters.filter(encounter => {
+            setResults(data.filter(encounter => {
                 return encounter.title.toLowerCase()
                     .indexOf(value.toLowerCase()) > -1
             }))
         else
             setResults([])
-    }, [value, encounters, focused])
+    }, [value, data, focused])
 
     useEffect(() => {
-        let titles = encounters.map(encounter => encounter.title)
+        let titles = data.map(encounter => encounter.title)
         if (titles.indexOf(value) === -1)
             onSelected({})
     // eslint-disable-next-line
     }, [value])
 
     const onSelect = encounter => {
-        console.log(encounter)
         setvalue(encounter.title)
         onSelected(encounter)
     }
