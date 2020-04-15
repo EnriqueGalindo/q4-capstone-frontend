@@ -29,11 +29,9 @@ export const ButtonContainer = styled.div`
 export const AddEncounter = styled.button`
     background-color: #151E3F;
     border: none;
-    border-radius: 50%;
     height: 50px;
     width: 50px;
     color: white;
-    padding: 12px 16px;
-    font-size: 20px;
+    font-size: 30px;
     cursor: pointer;
 `;

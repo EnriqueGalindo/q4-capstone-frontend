@@ -5,31 +5,45 @@ import { EncounterGrid } from './styles';
 import EncounterSearchHeader from '../../components/EncounterSearchHeader';
 import EncounterListItem from '../../components/EncounterListItem';
 
-export default function EncounterList({api, encounters}) {
+export default function EncounterList({encounters}) {
+
+    const [selected, setSelected] = useState({})
+
+    const reduceCreatures = creatures => {
+        return creatures.reduce((prev, cur) => {
+            if (!prev.hasOwnProperty(cur.name))
+                prev[cur.name] = 1
+            else
+                prev[cur.name] += 1
+            
+            return prev;
+        }, {})
+    }
 
     const selectedEncounters = selected => {
         if (Object.keys(selected).length !== 0) {
             return (
                 <EncounterListItem
+                    id={selected.id}
                     imgSrc={selected.src}
                     title={selected.title}
                     created_on={selected.created_on}
                     created_by={selected.created_by}
-                    creatures={selected.creatures}
+                    creatures={reduceCreatures(selected.creatures)}
                     onEdit={() => console.log('edit encounter')}
                     onRun={() => console.log('run encounter')}
                     onDelete={() => console.log('delete encounter')}
                 />
             )
         } else
-            return encounters.map((encounter, index) => (
+            return encounters.map((encounter) => (
                 <EncounterListItem
-                    key={index}
+                    key={encounter.id}
                     imgSrc={encounter.src}
                     title={encounter.title}
                     created_on={encounter.created_on}
                     created_by={encounter.created_by}
-                    creatures={encounter.creatures}
+                    creatures={reduceCreatures(encounter.creatures)}
                     onEdit={() => console.log('edit Encounter')}
                     onRun={() => console.log('run encounter')}
                     onDelete={() => console.log('delete encounter')}
@@ -41,8 +55,6 @@ export default function EncounterList({api, encounters}) {
         console.log('Add Encounter')
         e.preventDefault()
     }
-
-    const [selected, setSelected] = useState({})
 
     return (
         <>

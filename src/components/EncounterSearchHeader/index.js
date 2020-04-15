@@ -16,12 +16,11 @@ export default function EncounterSearchHeader({encounters, onSelected, addEncoun
     return (      
         <Header>
             <SearchForm>
-                {/* 120 x 44 */}
                 <LogoContainer>
                     <img alt='' src={logo} />
                 </LogoContainer>
                 <Autocomplete 
-                    encounters={encounters}
+                    data={encounters}
                     onSelected={onSelected}
                 />
                 <ButtonContainer>

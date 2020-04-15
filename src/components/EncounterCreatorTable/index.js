@@ -7,7 +7,7 @@ import {
     Cell
 } from './styles';
 
-export default function EncounterCreatorTable({encounter}) {
+export default function EncounterCreatorTable({creatures}) {
     return (
         <Table>
             <thead>
@@ -20,20 +20,22 @@ export default function EncounterCreatorTable({encounter}) {
             </thead>
             
             <tbody>
-                <TableRow>
-                    <Cell>
-                        Goblin
-                    </Cell>
-                    <Cell>
-                        100
-                    </Cell>
-                    <Cell>
-                        17
-                    </Cell>
-                    <Cell>
-                        8
-                    </Cell>
-                </TableRow>
+                {creatures.map(creature => (
+                    <TableRow>
+                        <Cell>
+                            {creature.name}
+                        </Cell>
+                        <Cell>
+                            {creature.hp}
+                        </Cell>
+                        <Cell>
+                            {creature.ac}
+                        </Cell>
+                        <Cell>
+                            {creature.quantity}
+                        </Cell>
+                    </TableRow>
+                ))}
             </tbody>
         </Table>
     )

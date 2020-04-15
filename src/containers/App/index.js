@@ -21,11 +21,10 @@ function App() {
           <ApiProvider>
             <PropPassingRoute 
               exact path="/"
-              // component={EncounterList}
-              component={EncounterCreator}
+              component={EncounterList}
             />
             <PropPassingRoute 
-              exact path="/encountercreator"
+              exact path="/create"
               component={EncounterCreator}
             />
             <PropPassingRoute 
