@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import {
     FlipCard,
@@ -15,6 +15,11 @@ import {
 } from './styles.js'
 
 export default function EncounterListitem(props) {
+    
+    useEffect(() => {
+        console.log(props)
+    }, []);
+
     return (
         <FlipCard>
             <FlipCardContainer>

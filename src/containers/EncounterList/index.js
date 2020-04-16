@@ -36,7 +36,7 @@ export default function EncounterList({encounters}) {
                     created_on={selected.created_on}
                     created_by={selected.created_by}
                     creatures={reduceCreatures(selected.creatures)}
-                    onEdit={() => console.log('edit encounter')}
+                    onEdit={() => history.push(`/create/${selected.id}`)}
                     onRun={() => console.log('run encounter')}
                     onDelete={() => console.log('delete encounter')}
                 />
@@ -44,13 +44,14 @@ export default function EncounterList({encounters}) {
         } else
             return encounters.map((encounter) => (
                 <EncounterListItem
+                    id={encounter.id}
                     key={encounter.id}
                     imgSrc={encounter.src}
                     title={encounter.title}
                     created_on={encounter.created_on}
                     created_by={encounter.created_by}
                     creatures={reduceCreatures(encounter.creatures)}
-                    onEdit={() => console.log('edit Encounter')}
+                    onEdit={() => history.push(`/create/${encounter.id}`)}
                     onRun={() => console.log('run encounter')}
                     onDelete={() => console.log('delete encounter')}
                 />
@@ -58,7 +59,7 @@ export default function EncounterList({encounters}) {
     }
 
     const createEncounter = data => {
-        history.push(`/create?title=${data.Title}`)
+        history.push(`/create?title=${data.title}`)
         setHide(true)
     }
 
