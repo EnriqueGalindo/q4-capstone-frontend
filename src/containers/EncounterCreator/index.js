@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import Modal from '../../components/Modal';
 import Table from '../../components/EncounterCreatorTable';
@@ -9,10 +9,12 @@ import Form from '../../components/GenericForm';
 
 const testForNumber = input => (input === '' || /^\d+$/.test(input))
 
-export default function EncounterCreator() {
-    const history = useHistory()
+export default function EncounterCreator({match}) {
+    const history = useHistory();
+    const location = useLocation();
     const [hide, setHide] = useState(true);
-    const [creatures, setCreatures] = useState([])
+    const [creatures, setCreatures] = useState([]);
+    const [title, setTitle] = useState('');
 
     const hideModal = e => {
         setHide(true)
@@ -30,14 +32,26 @@ export default function EncounterCreator() {
 
     const addCreature = creature => {
         setHide(true)
-        console.log(creature    )
         setCreatures([...creatures, creature])
     }
+
+    useEffect(() => {
+        if (match.params.id) {
+            // This is an edit and needs to make a fetch request
+            // to grab the current encounter to fill in details
+        } else {
+            // We are creating a new encounter
+            // grab title from url query string
+            const search = location.search
+            const params = new URLSearchParams(search)
+            setTitle(params.get('title'))
+        }
+    }, [location.search, match.params.id])
 
     return (
         <div>
             <Header 
-                title={'Title of Encounter'}
+                title={title}
                 onSave={onSave}
                 onCancel={onCancel}
                 onAdd={onAdd}

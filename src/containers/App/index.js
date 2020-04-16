@@ -24,7 +24,7 @@ function App() {
               component={EncounterList}
             />
             <PropPassingRoute 
-              exact path="/create"
+              exact path={['/create', '/create/:id']}
               component={EncounterCreator}
             />
             <PropPassingRoute 
