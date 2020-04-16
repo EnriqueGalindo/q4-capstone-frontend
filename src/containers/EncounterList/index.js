@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 
 import { EncounterGrid } from './styles';
 
+import { useHistory } from 'react-router-dom';
+
 import Modal from '../../components/Modal';
 import GenericForm from '../../components/GenericForm';
 import EncounterSearchHeader from '../../components/EncounterSearchHeader';
@@ -9,8 +11,9 @@ import EncounterListItem from '../../components/EncounterListItem';
 
 export default function EncounterList({encounters}) {
 
-    const [selected, setSelected] = useState({})
-    const [hide, setHide] = useState(true)
+    const history = useHistory();
+    const [selected, setSelected] = useState({});
+    const [hide, setHide] = useState(true);
 
     const reduceCreatures = creatures => {
         return creatures.reduce((prev, cur) => {
@@ -55,7 +58,7 @@ export default function EncounterList({encounters}) {
     }
 
     const createEncounter = data => {
-        console.log(data)
+        history.push(`/create?title=${data.Title}`)
         setHide(true)
     }
 
