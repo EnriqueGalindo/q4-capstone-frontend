@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 
+import { useHistory } from 'react-router-dom';
+
 import Modal from '../../components/Modal';
 import Table from '../../components/EncounterCreatorTable';
 import Header from '../../components/EncounterCreatorHeader';
-import CreatureForm from '../../components/CreatureCreationForm';
+import Form from '../../components/GenericForm';
+
+const testForNumber = input => (input === '' || /^\d+$/.test(input))
 
 export default function EncounterCreator() {
+    const history = useHistory()
     const [hide, setHide] = useState(true);
     const [creatures, setCreatures] = useState([])
 
@@ -15,7 +20,9 @@ export default function EncounterCreator() {
 
     const onSave = e => {}
 
-    const onCancel = e => {}
+    const onCancel = e => {
+        history.push('/')
+    }
 
     const onAdd = e => {
         setHide(false)
@@ -23,6 +30,7 @@ export default function EncounterCreator() {
 
     const addCreature = creature => {
         setHide(true)
+        console.log(creature    )
         setCreatures([...creatures, creature])
     }
 
@@ -36,8 +44,6 @@ export default function EncounterCreator() {
             />
             <Table creatures={creatures}/>
             <Modal
-                containerColor={'rgba(0, 0, 0, .6)'}
-                opacity={'.9'}
                 bgColor={'#151E3F'}
                 width={'30vw'}
                 height={'50vh'}
@@ -46,9 +52,36 @@ export default function EncounterCreator() {
                 onContentClick={e => e.stopPropagation()}
                 hidden={hide}
             >
-                <CreatureForm 
-                    color={'white'}
-                    onCreate={addCreature}
+                <Form 
+                    header={'Create a creature'}
+                    color='white'
+                    submitText='Create'
+                    submitAction={addCreature}
+                    fields={[
+                        {
+                            name: 'Name',
+                            value: '',
+                            required: true
+                        },
+                        {
+                            name: 'HP',
+                            value: '',
+                            required: true,
+                            test: testForNumber
+                        },
+                        {
+                            name: 'AC',
+                            value: '',
+                            required: true,
+                            test: testForNumber
+                        },
+                        {
+                            name: 'Quantity',
+                            value: '',
+                            required: true,
+                            test: testForNumber
+                        }
+                    ]}
                 />
             </Modal>
         </div>

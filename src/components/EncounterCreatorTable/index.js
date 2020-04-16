@@ -23,16 +23,16 @@ export default function EncounterCreatorTable({creatures}) {
                 {creatures.map(creature => (
                     <TableRow>
                         <Cell>
-                            {creature.name}
+                            {creature.Name}
                         </Cell>
                         <Cell>
-                            {creature.hp}
+                            {creature.HP}
                         </Cell>
                         <Cell>
-                            {creature.ac}
+                            {creature.AC}
                         </Cell>
                         <Cell>
-                            {creature.quantity}
+                            {creature.Quantity}
                         </Cell>
                     </TableRow>
                 ))}

@@ -13,7 +13,7 @@ export const SearchBar = styled.div`
     width: 638px;
     padding: 4px 4px 0 25px;
     transition: all ease-in-out .3s;
-    z-index: 100;
+    z-index: 4;
     background: white;
 
     &:hover {

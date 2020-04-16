@@ -2,12 +2,15 @@ import React, {useState} from 'react';
 
 import { EncounterGrid } from './styles';
 
+import Modal from '../../components/Modal';
+import GenericForm from '../../components/GenericForm';
 import EncounterSearchHeader from '../../components/EncounterSearchHeader';
 import EncounterListItem from '../../components/EncounterListItem';
 
 export default function EncounterList({encounters}) {
 
     const [selected, setSelected] = useState({})
+    const [hide, setHide] = useState(true)
 
     const reduceCreatures = creatures => {
         return creatures.reduce((prev, cur) => {
@@ -51,8 +54,13 @@ export default function EncounterList({encounters}) {
             ))
     }
 
+    const createEncounter = data => {
+        console.log(data)
+        setHide(true)
+    }
+
     const addEncounter = e => {
-        console.log('Add Encounter')
+        setHide(false)
         e.preventDefault()
     }
 
@@ -66,6 +74,29 @@ export default function EncounterList({encounters}) {
             <EncounterGrid>
                 { selectedEncounters(selected) }
             </EncounterGrid>
+
+            <Modal
+                bgColor={'#151E3F'}
+                height={'25vh'}
+                color={'white'}
+                onContainerClick={() => setHide(true)}
+                onContentClick={e => e.stopPropagation()}
+                hidden={hide}
+            >
+                <GenericForm 
+                    header={'Enter a title'}
+                    color='white'
+                    submitText='Create'
+                    submitAction={createEncounter}
+                    fields={[
+                        {
+                            name: 'Title',
+                            value: '',
+                            required: true
+                        }
+                    ]}
+                />
+            </Modal>
         </>
     )
 }
