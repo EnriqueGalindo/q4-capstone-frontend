@@ -9,7 +9,7 @@ import Form from '../../components/GenericForm';
 
 const testForNumber = input => (input === '' || /^\d+$/.test(input))
 
-export default function EncounterCreator({match}) {
+export default function EncounterCreator({api, match}) {
     const history = useHistory();
     const location = useLocation();
     const [hide, setHide] = useState(true);
@@ -35,10 +35,31 @@ export default function EncounterCreator({match}) {
         setCreatures([...creatures, creature])
     }
 
+    const hydrateForm = data => {
+        setTitle(data.title);
+        setCreatures(data.creatures.reduce((prev, cur) => {
+            let creatureIndex = prev.findIndex(creature => creature.name === cur.name)
+
+            if (creatureIndex === -1)
+                prev.push({
+                    ...cur,
+                    quantity: 1
+                })
+            else
+                prev[creatureIndex] = {
+                    ...prev[creatureIndex],
+                    quantity: prev[creatureIndex].quantity + 1
+                }
+            
+            return prev;
+        }, []))
+    }
+
     useEffect(() => {
         if (match.params.id) {
             // This is an edit and needs to make a fetch request
-            // to grab the current encounter to fill in details
+            // to grab the current encounter to fill in the form details
+            api.getEncounter(match.params.id, hydrateForm)
         } else {
             // We are creating a new encounter
             // grab title from url query string
@@ -46,7 +67,7 @@ export default function EncounterCreator({match}) {
             const params = new URLSearchParams(search)
             setTitle(params.get('title'))
         }
-    }, [location.search, match.params.id])
+    }, [])
 
     return (
         <div>

@@ -20,19 +20,19 @@ export default function EncounterCreatorTable({creatures}) {
             </thead>
             
             <tbody>
-                {creatures.map(creature => (
-                    <TableRow>
-                        <Cell>
-                            {creature.Name}
+                {creatures.map((creature, index) => (
+                    <TableRow key={`tr-${index}`}>
+                        <Cell key={`name-${index}`}>
+                            {creature.name}
                         </Cell>
-                        <Cell>
-                            {creature.HP}
+                        <Cell key={`hp-${index}`}>
+                            {creature.hp}
                         </Cell>
-                        <Cell>
-                            {creature.AC}
+                        <Cell key={`ac-${index}`}>
+                            {creature.ac}
                         </Cell>
-                        <Cell>
-                            {creature.Quantity}
+                        <Cell key={`quantity-${index}`}>
+                            {creature.quantity}
                         </Cell>
                     </TableRow>
                 ))}

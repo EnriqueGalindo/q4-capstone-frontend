@@ -45,7 +45,7 @@ export default function GenericForm(props) {
         
         if (invalid_fields.length === 0)
             props.submitAction(state.fields.reduce((prev, cur) => {
-                prev[cur.name] = cur.value
+                prev[cur.name.toLowerCase()] = cur.value
                 return prev
             }, {}));
         else {

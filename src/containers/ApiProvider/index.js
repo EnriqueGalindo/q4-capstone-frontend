@@ -3,14 +3,18 @@ import { testData } from './testData';
 
 export default function ApiProvider({children}) {
 
-    const BASE_URL = 'localhost:800/api'
+    const BASE_URL = 'http://127.0.0.1:8000/api'
 
     const [encounters, setEncounters] = useState([])
 
-    const grabEncounters = (author) => {
-        fetch(`${BASE_URL}/encounters/${author}`)
-        .then(res => res.json())
-        .then(result => console.log(result))
+    const getEncounter = (id, callback) => {
+        try{
+            fetch(`${BASE_URL}/encounters/${id}`)
+            .then(res => res.json())
+            .then(callback)
+        }catch(e) {
+            console.log(e)
+        }
     }
 
     useEffect(() => {
@@ -22,7 +26,7 @@ export default function ApiProvider({children}) {
             React.cloneElement(child, {
                 encounters,
                 api: {
-                    grabEncounters
+                    getEncounter
                 }
             })
         )
