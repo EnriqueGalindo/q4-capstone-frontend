@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
+import imageList from './images';
+
 export default function ApiProvider({children}) {
 
     const BASE_URL = 'http://127.0.0.1:8000/api'
@@ -20,7 +22,14 @@ export default function ApiProvider({children}) {
         try {
             fetch(`${BASE_URL}/encounters`)
             .then(res => res.json())
-            .then(setEncounters)
+            .then(e => {
+                setEncounters(e.map((encounter, index) => {
+                    return {
+                        src: imageList[index % imageList.length],
+                        ...encounter
+                    }
+                }))
+            })
         } catch (e) {
             console.log(e)
         }
@@ -39,10 +48,16 @@ export default function ApiProvider({children}) {
                 })
             })
             .then(res => res.json())
-            .then(encounter => setEncounters([
-                ...encounters,
-                encounter
-            ]))
+            .then(encounter => {
+                console.log(encounters.length % imageList.length)
+                setEncounters([
+                    ...encounters,
+                    {
+                        src: imageList[encounters.length % imageList.length],
+                        ...encounter
+                    }
+                ])
+            })
             .then(callback)
         } catch (e) {
             console.log(e)
@@ -85,6 +100,7 @@ export default function ApiProvider({children}) {
         React.Children.map(children, child => 
             React.cloneElement(child, {
                 encounters,
+                imageList,
                 api: {
                     getEncounter,
                     getAllEncounters,

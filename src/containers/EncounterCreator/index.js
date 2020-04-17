@@ -53,6 +53,12 @@ export default function EncounterCreator({api, match}) {
         setCreatures([...creatures, creature])
     }
 
+    /*
+        This basically just takes the creatures and condenses them into a list of objects
+        where each one is a group of creatures with the same stats and stores the list of
+        id's for the creatures so that when you send the update request the server knows
+        which creatures to update and which ones to create if new creatures were added.
+    */
     const hydrateForm = data => {
         setTitle(data.title);
         setCreatures(data.creatures.reduce((prev, cur) => {

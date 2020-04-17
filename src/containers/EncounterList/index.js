@@ -9,7 +9,7 @@ import GenericForm from '../../components/GenericForm';
 import EncounterSearchHeader from '../../components/EncounterSearchHeader';
 import EncounterListItem from '../../components/EncounterListItem';
 
-export default function EncounterList({encounters, api}) {
+export default function EncounterList({encounters}) {
 
     const history = useHistory();
     const [selected, setSelected] = useState({});
