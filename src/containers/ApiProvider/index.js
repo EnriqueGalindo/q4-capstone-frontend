@@ -92,6 +92,24 @@ export default function ApiProvider({children}) {
         }
     }
 
+    const deleteEncounter = (id, callback=null) => {
+        try {
+            fetch(`${BASE_URL}/encounters/${id}`, {
+                method: 'DELETE',
+            })
+            .then(res => res.json())
+            .then(({deleted}) => {
+                setEncounters(encounters.filter(encounter => encounter.id === deleted))
+            })
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    useEffect(() => {
+        console.log(encounters)
+    }, [encounters])
+
     useEffect(() => {
         getAllEncounters()
     }, [])
@@ -105,7 +123,8 @@ export default function ApiProvider({children}) {
                     getEncounter,
                     getAllEncounters,
                     createEncounter,
-                    updateEncounter
+                    updateEncounter,
+                    deleteEncounter
                 }
             })
         )

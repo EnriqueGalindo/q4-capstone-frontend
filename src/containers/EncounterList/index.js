@@ -9,7 +9,7 @@ import GenericForm from '../../components/GenericForm';
 import EncounterSearchHeader from '../../components/EncounterSearchHeader';
 import EncounterListItem from '../../components/EncounterListItem';
 
-export default function EncounterList({encounters}) {
+export default function EncounterList({encounters, api}) {
 
     const history = useHistory();
     const [selected, setSelected] = useState({});
@@ -38,7 +38,7 @@ export default function EncounterList({encounters}) {
                     creatures={reduceCreatures(selected.creatures)}
                     onEdit={() => history.push(`/create/${selected.id}`)}
                     onRun={() => console.log('run encounter')}
-                    onDelete={() => console.log('delete encounter')}
+                    onDelete={() => api.deleteEncounter(selected.id)}
                 />
             )
         } else
@@ -53,7 +53,7 @@ export default function EncounterList({encounters}) {
                     creatures={reduceCreatures(encounter.creatures)}
                     onEdit={() => history.push(`/create/${encounter.id}`)}
                     onRun={() => console.log('run encounter')}
-                    onDelete={() => console.log('delete encounter')}
+                    onDelete={() => api.deleteEncounter(encounter.id)}
                 />
             ))
     }
