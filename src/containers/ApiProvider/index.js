@@ -81,7 +81,10 @@ export default function ApiProvider({children}) {
 
                 setEncounters([
                     ...encounters.slice(0, encounterIndex),
-                    encounter,
+                    {
+                        src: encounters[encounterIndex].src,
+                        ...encounter
+                    },
                     ...encounters.slice(encounterIndex + 1, encounters.length),
                 ])
             })
@@ -98,7 +101,11 @@ export default function ApiProvider({children}) {
             })
             .then(res => res.json())
             .then(({deleted}) => {
-                setEncounters(encounters.filter(encounter => encounter.id === deleted))
+                // not using double equals here is intentional
+                // deleted is a string and encounter.id is an int
+                // this forces type coercion automatically
+                // eslint-disable-next-line
+                setEncounters(encounters.filter(encounter => encounter.id != deleted))
             })
         } catch (e) {
             console.log(e)
