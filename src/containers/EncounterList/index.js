@@ -9,7 +9,7 @@ import GenericForm from '../../components/GenericForm';
 import EncounterSearchHeader from '../../components/EncounterSearchHeader';
 import EncounterListItem from '../../components/EncounterListItem';
 
-export default function EncounterList({encounters}) {
+export default function EncounterList({encounters, api}) {
 
     const history = useHistory();
     const [selected, setSelected] = useState({});
@@ -75,6 +75,7 @@ export default function EncounterList({encounters}) {
                 onSelected={encounter => setSelected(encounter)}
                 addEncounter={addEncounter}
             />
+
             <EncounterGrid>
                 { selectedEncounters(selected) }
             </EncounterGrid>

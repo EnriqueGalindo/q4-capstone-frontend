@@ -7,20 +7,38 @@ import Table from '../../components/EncounterCreatorTable';
 import Header from '../../components/EncounterCreatorHeader';
 import Form from '../../components/GenericForm';
 
-const testForNumber = input => (input === '' || /^\d+$/.test(input))
-
 export default function EncounterCreator({api, match}) {
     const history = useHistory();
     const location = useLocation();
     const [hide, setHide] = useState(true);
     const [creatures, setCreatures] = useState([]);
     const [title, setTitle] = useState('');
+    const [isEdit, setIsEdit] = useState(false);
+
+    const testForNumber = input => (input === '' || /^\d+$/.test(input))
 
     const hideModal = e => {
         setHide(true)
     }
 
-    const onSave = e => {}
+    const onSave = e => {
+        if (!isEdit)
+            api.createEncounter({
+                title,
+                creatures
+            }, () => {
+                history.push('/')
+            })
+        else {
+            api.updateEncounter({
+                id: match.params.id,
+                title,
+                creatures
+            }, () => {
+                history.push('/')
+            })
+        }
+    }
 
     const onCancel = e => {
         history.push('/')
@@ -43,14 +61,18 @@ export default function EncounterCreator({api, match}) {
             if (creatureIndex === -1)
                 prev.push({
                     ...cur,
+                    id: [cur.id],
                     quantity: 1
                 })
-            else
+            else {
+                let ids = prev[creatureIndex].id;
+                ids.push(cur.id)
                 prev[creatureIndex] = {
                     ...prev[creatureIndex],
+                    id: ids,
                     quantity: prev[creatureIndex].quantity + 1
                 }
-            
+            }
             return prev;
         }, []))
     }
@@ -60,13 +82,16 @@ export default function EncounterCreator({api, match}) {
             // This is an edit and needs to make a fetch request
             // to grab the current encounter to fill in the form details
             api.getEncounter(match.params.id, hydrateForm)
+            setIsEdit(true)
         } else {
             // We are creating a new encounter
             // grab title from url query string
             const search = location.search
             const params = new URLSearchParams(search)
             setTitle(params.get('title'))
+            setIsEdit(false)
         }
+        // eslint-disable-next-line
     }, [])
 
     return (

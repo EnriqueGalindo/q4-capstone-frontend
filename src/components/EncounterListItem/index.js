@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-
+import React from 'react';
 import {
     FlipCard,
     ImgContainer,
@@ -12,14 +11,13 @@ import {
     Container,
     ButtonContainer,
     Button
-} from './styles.js'
+} from './styles.js';
 
 export default function EncounterListitem(props) {
-    
-    useEffect(() => {
-        console.log(props)
-    }, []);
-
+    const formatDate = date => {
+        let dateObj = new Date(date);
+        return dateObj.toDateString()
+    }
     return (
         <FlipCard>
             <FlipCardContainer>
@@ -29,7 +27,7 @@ export default function EncounterListitem(props) {
                     </ImgContainer>
                     <Title>
                         <h1>{props.title}</h1>
-                        <p>Created On: {props.created_on}</p>
+                        <p>Created On: {formatDate(props.created_on)}</p>
                         <p>Created By: {props.created_by}</p>
                     </Title>
                 </FlipCardFront>
