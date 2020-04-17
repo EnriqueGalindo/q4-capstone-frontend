@@ -49,7 +49,6 @@ export default function ApiProvider({children}) {
             })
             .then(res => res.json())
             .then(encounter => {
-                console.log(encounters.length % imageList.length)
                 setEncounters([
                     ...encounters,
                     {
@@ -105,10 +104,6 @@ export default function ApiProvider({children}) {
             console.log(e)
         }
     }
-
-    useEffect(() => {
-        console.log(encounters)
-    }, [encounters])
 
     useEffect(() => {
         getAllEncounters()
