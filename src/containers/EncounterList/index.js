@@ -37,7 +37,7 @@ export default function EncounterList({encounters, api}) {
                     created_by={selected.created_by}
                     creatures={reduceCreatures(selected.creatures)}
                     onEdit={() => history.push(`/create/${selected.id}`)}
-                    onRun={() => console.log('run encounter')}
+                    onRun={() => history.push(`/encounter/${selected.id}`)}
                     onDelete={() => api.deleteEncounter(selected.id)}
                 />
             )
@@ -52,7 +52,7 @@ export default function EncounterList({encounters, api}) {
                     created_by={encounter.created_by}
                     creatures={reduceCreatures(encounter.creatures)}
                     onEdit={() => history.push(`/create/${encounter.id}`)}
-                    onRun={() => console.log('run encounter')}
+                    onRun={() => history.push(`/encounter/${encounter.id}`)}
                     onDelete={() => api.deleteEncounter(encounter.id)}
                 />
             ))

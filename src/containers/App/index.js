@@ -10,6 +10,8 @@ import ApiProvider from '../ApiProvider';
 import EncounterList from '../EncounterList';
 import Encounter from '../Encounter';
 import EncounterCreator from '../EncounterCreator';
+import NotFound from '../404';
+import ServersOnFire from '../500';
 
 import './App.css';
 
@@ -28,8 +30,16 @@ function App() {
               component={EncounterCreator}
             />
             <PropPassingRoute 
-              exact path="/encounter"
+              exact path="/encounter/:id"
               component={Encounter}
+            />
+            <PropPassingRoute 
+              exact path='/404'
+              component={NotFound}
+            />
+            <PropPassingRoute 
+              exact path='/500'
+              component={ServersOnFire}
             />
           </ApiProvider>
         </Switch>

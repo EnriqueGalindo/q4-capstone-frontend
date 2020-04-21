@@ -9,21 +9,8 @@ import {
     Button,
     Select,
     Option,
-    Input,
-    Checkbox,
 } from './styles';
 
-/*<div>
-            
-        </div>
-    a field object should hold:
-    field and label name,
-    type of input,
-    value,
-    whether its required to submit form,
-    test: for text input test whether input is valid,
-    if type is seleect options for drop down
-*/
 const fields = []
 
 const reducer = ({fields}, {type, payload}) => {
@@ -161,7 +148,11 @@ export default function GenericForm(props) {
             )): null}
 
             <FormControl>
-                <Button onClick={submit}>
+                <Button 
+                    color={props.color || 'white'}
+                    hoverbg={props.hoverbg || 'black'}
+                    hovercolor={props.hovercolor || 'white'}
+                    onClick={submit}>
                     {props.submitText}
                 </Button>
             </FormControl>
