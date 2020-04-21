@@ -15,8 +15,11 @@ export default function ApiProvider({children}) {
         try {
             fetch(`${BASE_URL}/encounters/${id}`)
             .then(res => {
-                if (res.status !== 200)
+                if (res.status === 404)
                     history.push('/404?what=Encounter')
+                else if (res.status === 500)
+                    history.push('/505')
+
                 return res.json()
             })
             .then(callback)
@@ -83,8 +86,11 @@ export default function ApiProvider({children}) {
                 })
             })
             .then(res => {
-                if (res.status !== 200)
+                if (res.status === 404)
                     history.push('/404?what=Encounter')
+                else if (res.status === 500)
+                    history.push('/505')
+                    
                 return res.json()
             })
             .then(encounter => {
@@ -111,8 +117,11 @@ export default function ApiProvider({children}) {
                 method: 'DELETE',
             })
             .then(res => {
-                if (res.status !== 200)
+                if (res.status === 404)
                     history.push('/404?what=Encounter')
+                else if (res.status === 500)
+                    history.push('/505')
+                    
                 return res.json()
             })
             .then(({deleted}) => {
@@ -138,8 +147,11 @@ export default function ApiProvider({children}) {
                 body: JSON.stringify(creature)
             })
             .then(res => {
-                if (res.status !== 200)
+                if (res.status === 404)
                     history.push('/404?what=Creature')
+                else if (res.status === 500)
+                    history.push('/505')
+                    
                 return res.json()
             })
             .then(console.log)
