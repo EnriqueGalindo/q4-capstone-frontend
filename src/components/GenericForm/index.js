@@ -1,4 +1,4 @@
-import React, {useEffect, useReducer} from 'react'
+import React, { useReducer, useEffect } from 'react'
 
 import {
     Form,
@@ -6,29 +6,40 @@ import {
     FormControl,
     InputLabel,
     TextInput,
-    Button
+    Button,
+    Select,
+    Option,
 } from './styles';
 
 const fields = []
-const reducer = ({fields}, {type, payload}) => {
-    if (type === 'initial_state')
-        return {fields: payload}
 
-    if (type === 'update') {
-        return {fields: [
-            ...fields.slice(0, payload.index),
-            payload,
-            ...fields.slice(payload.index + 1, fields.length)
-        ]}
+const reducer = ({fields}, {type, payload}) => {
+    switch (type) {
+        case 'init_state':
+            return { fields: payload }
+
+        case 'update':
+            return {
+                fields: [
+                    ...fields.slice(0, payload.index),
+                    payload,
+                    ...fields.slice(payload.index + 1, fields.length)
+                ]
+            }
+
+        default:
+            console.log('reducer', type, payload)
+            return {fields}
     }
 }
 
 export default function GenericForm(props) {
     const [state, dispatch] = useReducer(reducer, fields)
 
+    // This just takes the index of the field and adds that to the fields state value so we can find it to update efficiently
     useEffect(() => {
         dispatch({
-            type: 'initial_state',
+            type: 'init_state',
             payload: props.fields.map((field, index) => {
                 return {
                     index,
@@ -38,28 +49,7 @@ export default function GenericForm(props) {
         })
     }, [props.fields])
 
-    const submit = e => {
-        e.preventDefault();
-
-        let invalid_fields = validate()
-        
-        if (invalid_fields.length === 0)
-            props.submitAction(state.fields.reduce((prev, cur) => {
-                prev[cur.name.toLowerCase()] = cur.value
-                return prev
-            }, {}));
-        else {
-            alert(`Fields: ${invalid_fields} required`)
-        }
-    }
-
-    const validate = () => {
-        return state.fields
-            .filter( field => field.required && field.value === '')
-            .map( field => field.name)
-    }
-
-    const onChange = (e, field) => {
+    const onChangeTest = (e, field) => {
         let {value} = e.target;
         if (!field.test || field.test(value)) {
             dispatch({
@@ -72,32 +62,97 @@ export default function GenericForm(props) {
         }
     }
 
+    const createTextInput = field => {
+        return <TextInput 
+            key={`txt-${field.index}`}
+            color={props.color || 'black'}
+            type={`${field.type}`}
+            value={field.value}
+            onChange={e => onChangeTest(e, field)}
+        />
+    }
+
+    const createSelectInput = field => {
+        let { options } = field
+
+        return (
+            <Select value={state.fields[field.index].value}>
+                {options.map(option => (
+                    <Option
+                        key={`${field.name}-${option}`}
+                        onClick={() => dispatch({
+                            type: `update`,
+                            payload: {
+                                ...field,
+                                value: option
+                            }
+                        })}
+                    >
+                        {option}
+                    </Option>
+                ))}
+            </Select>
+        )
+    }
+
+    const validate = () => {
+        return state.fields
+            .filter( field => field.required && field.value === '')
+            .map( field => field.name)
+    }
+
+    const submit = e => {
+        e.preventDefault();
+
+        let invalid_fields = validate()
+
+        
+        if (invalid_fields.length === 0) {
+            if (props.submitAction)
+                props.submitAction(state.fields.reduce((prev, cur) => {
+                    prev[cur.name.toLowerCase()] = cur.value
+                    return prev
+                }, {}));
+        } else
+            alert(`Fields: ${invalid_fields} required`)
+    }
+
+    const createInput = field => {
+        if (field.type !== 'select')
+            return createTextInput(field)
+        else {
+            return createSelectInput(field)
+        }
+    }
+
     return (
         <Form>
-            <FormHeader>
+            <FormHeader color={props.color}>
                 <h1>{props.header}</h1>
             </FormHeader>
 
             {state.fields ? state.fields.map(field => (
-                <FormControl key={`${field.index}-control`}>
-                    <InputLabel 
-                        key={`${field.index}-label`}
-                        htmlfor={field.name}
+                <FormControl 
+                    key={`ctrl-${field.index}`}
+                    color={props.color || 'black'}
+                >
+                    <InputLabel
+                        key={`lbl-${field.index}`}
+                        htmlFor={field.name}
                     >
                         {field.name}
                     </InputLabel>
-                    <TextInput
-                        key={`${field.index}-input`}
-                        color={props.color || 'black'}
-                        type='text'
-                        value={field.value}
-                        onChange={e => onChange(e, field)}
-                    />
+
+                    {createInput(field)}
                 </FormControl>
             )): null}
 
             <FormControl>
-                <Button onClick={submit}>
+                <Button 
+                    color={props.color || 'white'}
+                    hoverbg={props.hoverbg || 'black'}
+                    hovercolor={props.hovercolor || 'white'}
+                    onClick={submit}>
                     {props.submitText}
                 </Button>
             </FormControl>

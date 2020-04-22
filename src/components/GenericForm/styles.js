@@ -40,11 +40,19 @@ export const Button = styled.button`
     width: 100%;
     padding: 15px 0;
     background: transparent;
-    border: 1px solid white;
-    color: white;
+    border: 1px solid ${props => props.color};
+    color: ${props => props.color};
 
     &:hover {
-        background: white;
-        color: black;
+        background: ${props => props.hoverbg};
+        color: ${props => props.hovercolor};
     }
 `;
+
+export const Input = styled.input``;
+
+export const Checkbox = styled.input``;
+
+export const Select = styled.select``;
+
+export const Option = styled.option``;

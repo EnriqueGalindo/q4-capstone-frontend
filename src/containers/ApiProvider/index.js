@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import imageList from './images';
 
 export default function ApiProvider({children}) {
+
+    const history = useHistory()
 
     const BASE_URL = 'http://127.0.0.1:8000/api'
 
@@ -11,10 +14,17 @@ export default function ApiProvider({children}) {
     const getEncounter = (id, callback) => {
         try {
             fetch(`${BASE_URL}/encounters/${id}`)
-            .then(res => res.json())
+            .then(res => {
+                if (res.status === 404)
+                    history.push('/404?what=Encounter')
+                else if (res.status === 500)
+                    history.push('/500')
+
+                return res.json()
+            })
             .then(callback)
         } catch (e) {
-            console.log(e)
+            console.log('error', e)
         }
     }
 
@@ -75,7 +85,14 @@ export default function ApiProvider({children}) {
                     creatures
                 })
             })
-            .then(res => res.json())
+            .then(res => {
+                if (res.status === 404)
+                    history.push('/404?what=Encounter')
+                else if (res.status === 500)
+                    history.push('/500')
+                    
+                return res.json()
+            })
             .then(encounter => {
                 let encounterIndex = encounters.findIndex(e => e.id === encounter.id);
 
@@ -94,18 +111,63 @@ export default function ApiProvider({children}) {
         }
     }
 
-    const deleteEncounter = (id, callback=null) => {
+    const deleteEncounter = (id) => {
         try {
             fetch(`${BASE_URL}/encounters/${id}`, {
                 method: 'DELETE',
             })
-            .then(res => res.json())
+            .then(res => {
+                if (res.status === 404)
+                    history.push('/404?what=Encounter')
+                else if (res.status === 500)
+                    history.push('/500')
+                    
+                return res.json()
+            })
             .then(({deleted}) => {
                 // not using double equals here is intentional
                 // deleted is a string and encounter.id is an int
                 // this forces type coercion automatically
                 // eslint-disable-next-line
                 setEncounters(encounters.filter(encounter => encounter.id != deleted))
+            })
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    const updateCreature = (id, creature, callback=null) => {
+        console.log(id)
+        try {
+            fetch(`${BASE_URL}/creatures/${id}/`, {
+                method: 'PUT',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify(creature)
+            })
+            .then(res => {
+                if (res.status === 404)
+                    history.push('/404?what=Creature')
+                else if (res.status === 500)
+                    history.push('/500')
+                    
+                return res.json()
+            })
+            .then(console.log)
+        } catch (e) {
+            console.log('error', e)
+        }
+    }
+
+    const get500Error = () => {
+        try {
+            fetch(`${BASE_URL}/errors`)
+            .then(res => {
+                if (res.status === 404)
+                    history.push('/404?what=whatever youre looking for')
+                else if (res.status === 500)
+                    history.push('/500')
             })
         } catch (e) {
             console.log(e)
@@ -126,7 +188,9 @@ export default function ApiProvider({children}) {
                     getAllEncounters,
                     createEncounter,
                     updateEncounter,
-                    deleteEncounter
+                    deleteEncounter,
+                    updateCreature,
+                    get500Error
                 }
             })
         )
