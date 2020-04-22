@@ -12,7 +12,7 @@ import Encounter from '../Encounter';
 import EncounterCreator from '../EncounterCreator';
 import NotFound from '../404';
 import ServersOnFire from '../500';
-
+import ServerNuke from '../ServerNuke';
 import './App.css';
 
 function App() {
@@ -40,6 +40,10 @@ function App() {
             <PropPassingRoute 
               exact path='/500'
               component={ServersOnFire}
+            />
+            <PropPassingRoute 
+              exact path='/nuke'
+              component={ServerNuke}
             />
           </ApiProvider>
         </Switch>

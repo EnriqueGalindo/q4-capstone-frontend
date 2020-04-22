@@ -18,7 +18,7 @@ export default function ApiProvider({children}) {
                 if (res.status === 404)
                     history.push('/404?what=Encounter')
                 else if (res.status === 500)
-                    history.push('/505')
+                    history.push('/500')
 
                 return res.json()
             })
@@ -89,7 +89,7 @@ export default function ApiProvider({children}) {
                 if (res.status === 404)
                     history.push('/404?what=Encounter')
                 else if (res.status === 500)
-                    history.push('/505')
+                    history.push('/500')
                     
                 return res.json()
             })
@@ -120,7 +120,7 @@ export default function ApiProvider({children}) {
                 if (res.status === 404)
                     history.push('/404?what=Encounter')
                 else if (res.status === 500)
-                    history.push('/505')
+                    history.push('/500')
                     
                 return res.json()
             })
@@ -150,13 +150,27 @@ export default function ApiProvider({children}) {
                 if (res.status === 404)
                     history.push('/404?what=Creature')
                 else if (res.status === 500)
-                    history.push('/505')
+                    history.push('/500')
                     
                 return res.json()
             })
             .then(console.log)
         } catch (e) {
             console.log('error', e)
+        }
+    }
+
+    const get500Error = () => {
+        try {
+            fetch(`${BASE_URL}/errors`)
+            .then(res => {
+                if (res.status === 404)
+                    history.push('/404?what=whatever youre looking for')
+                else if (res.status === 500)
+                    history.push('/500')
+            })
+        } catch (e) {
+            console.log(e)
         }
     }
 
@@ -175,7 +189,8 @@ export default function ApiProvider({children}) {
                     createEncounter,
                     updateEncounter,
                     deleteEncounter,
-                    updateCreature
+                    updateCreature,
+                    get500Error
                 }
             })
         )
