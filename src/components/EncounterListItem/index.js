@@ -28,7 +28,7 @@ export default function EncounterListitem(props) {
                     <Title>
                         <h1>{props.title}</h1>
                         <p>Created On: {formatDate(props.created_on)}</p>
-                        <p>Created By: {props.created_by}</p>
+                        {/* <p>Created By: {props.created_by}</p> */}
                     </Title>
                 </FlipCardFront>
                 <FlipCardBack>
